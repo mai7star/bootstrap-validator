@@ -1,0 +1,16 @@
+{
+  "name": "bootbox.deferred",
+  "version": "0.0.1",
+  "main": "bootstrap.validator.js",
+  "keywords": [
+  	"bootbox", "form", "validator"
+  ],
+  "ignore" : [
+  	"docs", "test", "*.yml", "CNAME", "index.html", "favicon.ico", "CONTRIBUTING.md", ".*", "component.json", "package.json", "karma.*"
+  ],
+  "dependencies": {
+    "bootstrap": ">= 3.2.0",
+    "underscore": ">= 1.2",
+    "jquery": ">= 1.5"
+  }
+}
