@@ -46,7 +46,7 @@ define(['jquery', 'underscore', 'bootstrap'], function($, _){
 
 		validateRules: function(){
 			var ds = _.chain(this.rules)
-				.invoke('call')
+				.invoke('call', this.form)
 				.filter()
 				.value();
 

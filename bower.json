@@ -1,6 +1,6 @@
 {
-  "name": "bootbox.deferred",
-  "version": "0.0.1",
+  "name": "bootstrap.validator",
+  "version": "0.0.2",
   "main": "bootstrap.validator.js",
   "keywords": [
   	"bootbox", "form", "validator"
