@@ -1,12 +1,38 @@
-define(['jquery', 'underscore', 'bootstrap'], function($, _){
+/**
+ * bootstrap validtor
+ *
+ *
+ *
+ */
+(function(root, factory){
+	if(typeof define === "function" && define.amd){
+		// AMD. Register as an anonymous module.
+		define(['jquery', 'underscore', 'bootstrap'], factory);
+
+	} else {
+		if(typeof root.jQuery === 'undefined') {
+			throw new Error('bootbox.deferred requires jQuery.');
+		}
+		if(typeof root._ === 'undefined') {
+			throw new Error('bootbox.deferred requires underscore.js.');
+		}
+		if(typeof root.jQuery().emulateTransitionEnd === 'undefined') {
+			throw new Error('bootbox.deferred requires Bootbox.');
+		}
+
+		// Browser globals (root is window)
+		root.validator = factory(root.jQuery, root._);
+	}
+
+}(this, function($, _){
 	'use strict';
 
-	var FormValidator = function(form, rules){
+	var validator = function(form, rules){
 		this.form = form;
 		this.rules = rules;
 	};
 
-	FormValidator.prototype = {
+	validator.prototype = {
 		validate: function(){
 			this.deferred = $.Deferred();
 			this.clearError();
@@ -89,5 +115,13 @@ define(['jquery', 'underscore', 'bootstrap'], function($, _){
 		}
 	};
 
-	return FormValidator;
-});
+	$.fn.validate = function(rules){
+		if(this.prop('tagName') != 'FORM'){
+			throw new Error('only support form tag');
+		}
+
+		return new validator(this, rules).validate();
+	}
+
+	return validator;
+}));
