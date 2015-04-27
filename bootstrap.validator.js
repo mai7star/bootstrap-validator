@@ -79,7 +79,7 @@
 			ds.push(this.wait());
 			$.when
 				.apply(null, ds)
-				.then(this.showErrors.bind(this));
+				.always(this.showErrors.bind(this));
 		},
 
 		showErrors: function(){
