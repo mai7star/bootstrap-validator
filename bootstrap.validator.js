@@ -29,8 +29,8 @@
 
 	var validator = function(form, rules, callback){
 		this.form = form;
-		this.rules = rules;
-		this.callback = callback;
+		this.rules = rules || [];
+		this.callback = callback || _.noop;;
 	};
 
 	validator.prototype = {
