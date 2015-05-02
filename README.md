@@ -1,5 +1,5 @@
 # bootstrap-validator
-Validator for Bootstrap base form.
+Validator for Bootstrap based form.
 
 ## これは何？
 bootstrapのフォームのバリデーションライブラリです。  
@@ -35,3 +35,24 @@ $('form').validate([
 ```
 
 エラーはbootstrapのツールチップとして表示されます。
+
+validate()はjQuery.Deferredを返します。 
+エラーが発生しなかった場合は、done()コールバックが実行されます。  
+callback関数が定義されている場合は、その返り値がdone()コールバックに渡されます。
+
+
+```js
+$('form').validate([    // rules
+  function(form){
+    if(form('#name').val() == ''){
+      form('#name').data('error', '入力されていません。');
+    }
+  }
+],
+function(form){         // callback
+  return form('#name').val();
+})
+.done(function(name){
+  alert('名前: ' . name);
+});
+```
