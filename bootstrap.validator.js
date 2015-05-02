@@ -27,9 +27,10 @@
 }(this, function($, _){
 	'use strict';
 
-	var validator = function(form, rules){
+	var validator = function(form, rules, callback){
 		this.form = form;
-		this.rules = rules;
+		this.rules = rules || [];
+		this.callback = callback || _.constant({});
 	};
 
 	validator.prototype = {
@@ -42,6 +43,10 @@
 
 		filter1: function(){
 			return !_.isUndefined($(this).data('error'));
+		},
+
+		selector: function(selector){
+			return this.form.find(selector);
 		},
 
 		clearError: function(){
@@ -57,8 +62,8 @@
 				.map(function(){
 					var d = $.Deferred();
 
-				 	$(this)
-				 		.one('hidden.bs.tooltip', d.resolve)
+					$(this)
+						.one('hidden.bs.tooltip', d.resolve)
 						.tooltip('destroy')
 						.removeData('error');
 
@@ -72,14 +77,14 @@
 
 		validateRules: function(){
 			var ds = _.chain(this.rules)
-				.invoke('call', this.form)
+				.invoke('call', null, this.selector.bind(this))
 				.filter()
 				.value();
 
 			ds.push(this.wait());
 			$.when
 				.apply(null, ds)
-				.then(this.showErrors.bind(this));
+				.always(this.showErrors.bind(this));
 		},
 
 		showErrors: function(){
@@ -105,7 +110,13 @@
 				.get()
 				.length > 0;
 
-			has_error ? this.deferred.reject() : this.deferred.resolve();
+			if(has_error){
+				this.deferred.reject();
+				return;
+			}
+
+			var result = this.callback(this.selector.bind(this));
+			this.deferred.resolve(result);
 		},
 
 		wait: function(){
@@ -115,12 +126,12 @@
 		}
 	};
 
-	$.fn.validate = function(rules){
+	$.fn.validate = function(rules, callback){
 		if(this.prop('tagName') != 'FORM'){
 			throw new Error('only support form tag');
 		}
 
-		return new validator(this, rules).validate();
+		return new validator(this, rules, callback).validate();
 	}
 
 	return validator;
