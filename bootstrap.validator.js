@@ -30,7 +30,7 @@
 	var validator = function(form, rules, callback){
 		this.form = form;
 		this.rules = rules || [];
-		this.callback = callback || _.noop;;
+		this.callback = callback || _.constant({});
 	};
 
 	validator.prototype = {
