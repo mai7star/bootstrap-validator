@@ -2,7 +2,6 @@
  * bootstrap validtor
  *
  *
- *
  */
 (function(root, factory){
 	if(typeof define === "function" && define.amd){
@@ -79,9 +78,9 @@
 			var ds = _.chain(this.rules)
 				.invoke('call', null, this.selector.bind(this))
 				.filter()
+				.push(this.wait())
 				.value();
 
-			ds.push(this.wait());
 			$.when
 				.apply(null, ds)
 				.always(this.showErrors.bind(this));
@@ -120,9 +119,9 @@
 		},
 
 		wait: function(){
-			var d = $.Deferred();
-			setTimeout(d.resolve, 100);
-			return d.promise();
+			return $.Deferred(function(){
+				setTimeout(this.resolve, 100);
+			}).promise();
 		}
 	};
 
