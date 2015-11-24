@@ -91,9 +91,11 @@
 				.find("*")
 				.filter(this.filter1)
 				.each(function(){
-					$(this).parents('.form-group:first').addClass('has-error');
+					var $this = $(this);
 
-					var option = $(this).data('error');
+					$this.parents('.form-group:first').addClass('has-error');
+
+					var option = $this.data('error');
 					if(_.isString(option)){
 						option = {
 							placement: 'top',
@@ -102,9 +104,15 @@
 					}
 					option.trigger = 'manual';
 
-					$(this)
+					$this
 						.tooltip(option)
 						.tooltip('show');
+
+					var tooltipid = $this.attr('aria-describedby');
+					$('#' + tooltipid)
+						.click(function(){
+							$this.tooltip('hide');
+						});
 				})
 				.get()
 				.length > 0;
