@@ -1,6 +1,6 @@
 {
   "name": "bootstrap.validator",
-  "version": "0.0.9",
+  "version": "0.9.0",
   "main": "bootstrap.validator.js",
   "keywords": [
   	"bootbox", "form", "validator"
